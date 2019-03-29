@@ -1,0 +1,77 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<!--命名空间应该是对应接口的包名+接口名 -->
+<mapper namespace="com.bsc.modules.student.dao.StudentMapper">
+    <resultMap id="getStudent" type="com.bsc.modules.student.entity.Student">
+        <!--property里表示的是实体类中定义的对象的名称，column表示的是数据表里的字段.把property插入到column-->
+        <result property="userID.id" column="userID"/>
+        <result property="grade" column="grade"/>
+        <result property="step" column="step"/>
+    </resultMap>
+
+    <insert id="insert">
+        INSERT INTO
+        student(userID,grade,step)
+        VALUES(#{userID.id},#{grade},#{step});
+    </insert>
+
+    <update id="update">
+        UPDATE student
+        <set>
+            <if test="userID!=null and userID.id!=null and userID.id!=''">
+                and userID= #{userID.id}
+            </if>
+            <if test="grade!= null and grade != ''">
+                and grade= #{grade}
+            </if>
+            <if test="step!= null and step != ''">
+                and step= #{step}
+            </if>
+        </set>
+        where id = #{id}
+    </update>
+
+    <delete id="delete">
+        DELETE FROM student WHERE id=#{id}
+    </delete>
+
+    <select id="get" resultMap="getStudent">
+        SELECT * FROM student WHERE id = #{id}
+    </select>
+
+    <select id="getT" resultMap="getStudent">
+        select * from student
+        <where>
+            <if test="userID!=null and userID.id!=null and userID.id!=''">
+                and userID= #{userID.id}
+            </if>
+            <if test="grade!= null and grade != ''">
+                and grade= #{grade}
+            </if>
+            <if test="step!= null and step != ''">
+                and step= #{step}
+            </if>
+        </where>
+        order by id desc
+    </select>
+
+    <select id="findList" resultMap="getStudent">
+        SELECT * FROM student
+        <where>
+            <if test="userID!=null and userID.id!=null and userID.id!=''">
+                and userID= #{userID.id}
+            </if>
+            <if test="grade!= null and grade != ''">
+                and grade= #{grade}
+            </if>
+            <if test="step!= null and step != ''">
+                and step= #{step}
+            </if>
+        </where>
+        ORDER BY id DESC
+    </select>
+    <select id="findAllList" resultMap="getStudent">
+        SELECT * FROM student ORDER BY id DESC
+    </select>
+
+</mapper>

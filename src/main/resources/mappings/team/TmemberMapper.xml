@@ -1,0 +1,58 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.bsc.modules.team.dao.TmemberMapper">
+    <resultMap id="getTmember" type="com.bsc.modules.team.entity.Tmember">
+        <id property="id" column="id"/>
+        <result property="team.id" column="teamID"/>
+        <result property="member.id" column="member"/>
+    </resultMap>
+    <insert id="insert">
+        INSERT INTO tmember(teamID,member)
+        VALUES (#{team.id},#{member.id});
+    </insert>
+    <update id="update">
+        UPDATE tmember
+        <set>
+            <if test="team!=null and team.id !=null and team.id !=''">
+                teamID=#{team.id},
+            </if>
+            <if test="member!=null and member.id !=null and member.id !=''">
+                member=#{member.id},
+            </if>
+        </set>
+        WHERE id = #{id}
+    </update>
+    <delete id="delete">
+        DELETE FROM tmember WHERE id=#{id}
+    </delete>
+    <select id="get" resultMap="getTmember">
+        SELECT * FROM tmember  WHERE id=#{id}
+    </select>
+    <select id="getT" resultMap="getTmember">
+        SELECT * FROM tmember
+        <where>
+            <if test="team!=null and team.id !=null and team.id !=''">
+            AND  teamID=#{team.id},
+            </if>
+            <if test="member!=null and member.id !=null and member.id !=''">
+            AND  member=#{member.id},
+            </if>
+        </where>
+        order by id desc
+    </select>
+    <select id="findList" resultMap="getTmember">
+        SELECT * FROM tmember
+        <where>
+            <if test="team!=null and team.id !=null and team.id !=''">
+                AND  teamID=#{team.id}
+            </if>
+            <if test="member!=null and member.id !=null and member.id !=''">
+                AND  member=#{member.id}
+            </if>
+        </where>
+        ORDER BY id DESC
+    </select>
+    <select id="fineAllList" resultMap="getTmember">
+        SELECT * FROM tmember ORDER BY id DESC
+    </select>
+</mapper>

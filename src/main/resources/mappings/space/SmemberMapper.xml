@@ -1,0 +1,76 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<!--命名空间应该是对应接口的包名+接口名 -->
+<mapper namespace="com.bsc.modules.space.dao.SmemberMapper">
+    <resultMap id="getSmember" type="com.bsc.modules.space.entity.Smember">
+        <id property="id" column="id"/>
+        <result property="spaceID.id" column="spaceID"/>
+        <result property="type" column="type"/>
+        <result property="member.id" column="member"/>
+    </resultMap>
+
+    <insert id="insert">
+        INSERT INTO
+        smember(spaceID,type,member)
+        VALUES(#{spaceID.id},#{type},#{member.id});
+    </insert>
+    <update id="update">
+        UPDATE smember
+        <set>
+            <if test="spaceID!=null and spaceID.id!= null and spaceID.id != ''">
+                spaceID= #{spaceID.id},
+            </if>
+            <if test="type!=null type != ''">
+                type= #{type},
+            </if>
+            <if test="member!=null and member.id!= null and member.id != ''">
+                member= #{member.id},
+            </if>
+        </set>
+        where id = #{id}
+    </update>
+
+    <delete id="delete">
+        DELETE FROM smember WHERE id=#{id}
+    </delete>
+
+    <select id="get" resultMap="getSmember">
+        SELECT * FROM smember WHERE id = #{id}
+    </select>
+
+    <select id="getT" resultMap="getSmember">
+        select * from smember
+        <where>
+            <if test="spaceID!=null and spaceID.id!= null and spaceID.id != ''">
+                and spaceID = #{spaceID.id}
+            </if>
+            <if test="type!=null type != ''">
+                and type = #{type}
+            </if>
+            <if test="member!=null and member.id!= null and member.id != ''">
+                and member = #{member.id}
+            </if>
+        </where>
+        ORDER BY id DESC
+    </select>
+
+    <select id="findList" resultMap="getSmember">
+        SELECT * FROM smember
+        <where>
+            <if test="spaceID!=null and spaceID.id!= null and spaceID.id != ''">
+                and spaceID = #{spaceID.id}
+            </if>
+            <if test="type!=null and type != ''">
+                and type = #{type}
+            </if>
+            <if test="member!=null and member.id!= null and member.id != ''">
+                and member = #{member.id}
+            </if>
+        </where>
+        ORDER BY id DESC
+    </select>
+    <select id="findAllList" resultMap="getSmember">
+        SELECT * FROM smember ORDER BY id DESC
+    </select>
+
+</mapper>

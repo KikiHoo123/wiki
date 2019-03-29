@@ -1,0 +1,105 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<!--命名空间应该是对应接口的包名+接口名 -->
+<mapper namespace="com.bsc.modules.interaction.dao.InteractionMapper">
+    <resultMap id="getInteraction" type="com.bsc.modules.interaction.entity.Interaction">
+        <id property="id" column="id"/>
+        <result property="wikiID.id" column="wikiID"/>
+        <result property="userID.id" column="userID"/>
+        <result property="spaceID.id" column="spaceID"/>
+        <result property="time" column="time"/>
+        <result property="type" column="type"/>
+        <result property="content" column="content"/>
+    </resultMap>
+    <insert id="insert">
+        INSERT INTO
+        interaction(wikiID,userID,spaceID,time,type,content)
+        VALUES(#{wikiID.id},#{userID.id},#{spaceID.id},#{time},#{type},#{content});
+    </insert>
+    <update id="update">
+        UPDATE interaction
+        <set>
+            <if test="wikiID!=null and wikiID.id!= null and wikiID.id != ''">
+                wikiID= #{wikiID.id},
+            </if>
+            <if test="userID!=null and userID.id!= null and userID.id != ''">
+                userID = #{userID.id},
+            </if>
+            <if test="spaceID!=null and spaceID.id!= null and spaceID.id != ''">
+                spaceID= #{spaceID.id},
+            </if>
+            <if test="time!= null and time != ''">
+                time= #{time},
+            </if>
+            <if test="type!=null and type != ''">
+                type= #{type},
+            </if>
+            <if test="content!= null and content != ''">
+                content= #{content},
+            </if>
+        </set>
+        where id = #{id}
+    </update>
+
+    <delete id="delete">
+        DELETE FROM interaction WHERE id=#{id}
+    </delete>
+
+    <select id="get" resultMap="getInteraction">
+        SELECT * FROM interaction WHERE id = #{id}
+    </select>
+
+    <select id="getT" resultMap="getInteraction">
+        select * from interaction
+        <where>
+            <if test="wikiID!=null and wikiID.id!= null and wikiID.id != ''">
+                and wikiID = #{wikiID.id}
+            </if>
+            <if test="userID!=null and userID.id!= null and userID.id != ''">
+                and userID = #{userID.id}
+            </if>
+            <if test="spaceID!=null and spaceID.id!= null and spaceID.id != ''">
+                and spaceID = #{spaceID.id}
+            </if>
+            <if test="time != null and time != ''">
+                and time = #{time}
+            </if>
+            <if test="type!=null and type != ''">
+                and type = #{type}
+            </if>
+            <if test="content != null and content != ''">
+                and content = #{content}
+            </if>
+        </where>
+        ORDER BY id DESC
+    </select>
+
+    <select id="findList" resultMap="getInteraction">
+        SELECT * FROM interaction
+        <where>
+            <if test="wikiID!=null and wikiID.id!= null and wikiID.id != ''">
+                and wikiID = #{wikiID.id}
+            </if>
+            <if test="userID!=null and userID.id!= null and userID.id != ''">
+                and userID = #{userID.id}
+            </if>
+            <if test="spaceID!=null and spaceID.id!= null and spaceID.id != ''">
+                and spaceID = #{spaceID.id}
+            </if>
+            <if test="time != null and time != ''">
+                and time = #{time}
+            </if>
+            <if test="type!=null and type != ''">
+                and type = #{type}
+            </if>
+            <if test="content != null and content != ''">
+                and content = #{content}
+            </if>
+        </where>
+        ORDER BY id DESC
+    </select>
+    <select id="findAllList" resultType="com.bsc.modules.interaction.entity.Interaction">
+        SELECT * FROM interaction ORDER BY id DESC
+    </select>
+
+</mapper>

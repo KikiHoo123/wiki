@@ -1,0 +1,162 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.bsc.modules.wiki.dao.WikiMapper">
+    <resultMap id="getWiki" type="com.bsc.modules.wiki.entity.Wiki">
+        <id property="id" column="id"/>
+        <result property="wiki.id" column="pid"/>
+        <result property="space.id" column="spaceID"/>
+        <result property="content" column="content"/>
+        <result property="creator.id" column="creator"/>
+        <result property="time" column="time"/>
+        <result property="title" column="title"/>
+        <result property="modifier.id" column="modifier"/>
+        <result property="lasttime" column="lasttime"/>
+        <result property="type" column="type"/>
+    </resultMap>
+    <insert id="insert">
+        INSERT INTO wiki (pid,spaceID,creator,time,modifier,lasttime,title,content,type)
+        VALUES (#{wiki.id},#{space.id},#{creator.id},#{time},#{modifier.id},#{lasttime},#{title},#{content},#{type});
+    </insert>
+    <update id="update">
+        UPDATE wiki
+        <set>
+            <if test="wiki!=null and wiki.id!=null and wiki.id!=''">
+                pid=#{wiki.id},
+            </if>
+            <if test="space !=null and space.id !=null and space.id !=''">
+                spaceID=#{space.id},
+            </if>
+            <if test="creator !=null and creator.id !=null and creator.id !=''">
+                creator=#{creator.id},
+            </if>
+            <if test="time!=null and time!=''">
+                time=#{time},
+            </if>
+            <if test="modifier !=null and modifier.id !=null and modifier.id !=''">
+                modifier=#{modifier.id},
+            </if>
+            <if test="lasttime!=null and lasttime!=''">
+                lasttime=#{lasttime},
+            </if>
+            <if test="title != null and title != ''">
+                title = #{title},
+            </if>
+            <if test="content != null and content != ''">
+                content = #{content},
+            </if>
+            <if test="type != null and type != ''">
+                type = #{type},
+            </if>
+        </set>
+        where id = #{id}
+    </update>
+    <delete id="delete">
+        DELETE FROM wiki WHERE id=#{id}
+    </delete>
+    <select id="get" resultMap="getWiki">
+        SELECT * FROM wiki WHERE id=#{id}
+    </select>
+    <select id="getT" resultMap="getWiki">
+        SELECT * FROM wiki
+        <where>
+            <if test="wiki!=null and wiki.id!=null and wiki.id!=''">
+                AND pid=#{wiki.id},
+            </if>
+            <if test="space !=null and space.id !=null and space.id !=''">
+                AND spaceID=#{space.id},
+            </if>
+            <if test="creator !=null and creator.id !=null and creator.id !=''">
+                AND creator=#{creator.id},
+            </if>
+            <if test="time!=null and time!=''">
+                AND time=#{time},
+            </if>
+            <if test="modifier !=null and modifier.id !=null and modifier.id !=''">
+                AND modifier=#{modifier.id},
+            </if>
+            <if test="lasttime!=null and lasttime!=''">
+                AND lasttime=#{lasttime},
+            </if>
+            <if test="title != null and title != ''">
+                AND title = #{title},
+            </if>
+            <if test="content != null and content != ''">
+                AND content = #{content},
+            </if>
+            <if test="type != null and type != ''">
+                AND type = #{type},
+            </if>
+        </where>
+        order by id desc
+    </select>
+    <select id="findList" resultMap="getWiki">
+        SELECT * FROM wiki
+        <where>
+            <if test="wiki!=null and wiki.id!=null and wiki.id!=''">
+                AND pid=#{wiki.id}
+            </if>
+            <if test="space !=null and space.id !=null and space.id !=''">
+                AND spaceID=#{space.id}
+            </if>
+            <if test="creator !=null and creator.id !=null and creator.id !=''">
+                AND creator=#{creator.id}
+            </if>
+            <if test="time!=null and time!=''">
+                AND time=#{time}
+            </if>
+            <if test="modifier !=null and modifier.id !=null and modifier.id !=''">
+                AND modifier=#{modifier.id}
+            </if>
+            <if test="lasttime!=null and lasttime!=''">
+                AND lasttime=#{lasttime}
+            </if>
+            <if test="title != null and title != '' and content != null and content != ''">
+                AND title  LIKE concat('%',  #{title},'%')
+                or content  LIKE concat('%',  #{content},'%')
+            </if>
+
+            <if test="type != null and type != ''">
+                AND type = #{type}
+            </if>
+        </where>
+        ORDER BY id DESC
+    </select>
+
+    <select id="findAllList" resultMap="getWiki">
+        SELECT * FROM wiki ORDER BY id DESC
+    </select>
+
+    <select id="getQueryList" resultMap="getWiki" >
+        SELECT * FROM wiki
+        <where>
+            <if test="wiki!=null and wiki.id!=null and wiki.id!=''">
+                AND pid=#{wiki.id}
+            </if>
+            <if test="space !=null and space.id !=null and space.id !=''">
+                AND spaceID=#{space.id}
+            </if>
+            <if test="creator !=null and creator.id !=null and creator.id !=''">
+                AND creator=#{creator.id}
+            </if>
+            <if test="time!=null and time!=''">
+                AND time=#{time}
+            </if>
+            <if test="modifier !=null and modifier.id !=null and modifier.id !=''">
+                AND modifier=#{modifier.id}
+            </if>
+            <if test="lasttime!=null and lasttime!=''">
+                AND lasttime=#{lasttime}
+            </if>
+            <if test="title != null and title != '' and content != null and content != ''">
+                AND title  LIKE concat('%',  #{title},'%')
+                or content  LIKE concat('%',  #{content},'%')
+            </if>
+
+            <if test="type != null and type != ''">
+                AND type = #{type}
+            </if>
+        </where>
+        ORDER BY id DESC
+    </select>
+
+</mapper>

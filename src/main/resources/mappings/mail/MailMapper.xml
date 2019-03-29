@@ -1,0 +1,87 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<!--命名空间应该是对应接口的包名+接口名 -->
+<mapper namespace="com.bsc.modules.mail.dao.MailMapper">
+
+    <resultMap id="getMail" type="com.bsc.modules.mail.entity.Mail">
+        <id property="id" column="id"/>
+        <result property="sender.id" column="sender"/>
+        <result property="receiver.id" column="receiver"/>
+        <result property="time" column="time"/>
+        <result property="content" column="content"/>
+    </resultMap>
+
+    <insert id="insert">
+        INSERT INTO
+        mail(sender,receiver,time,content)
+        VALUES(#{sender.id},#{receiver.id},now(),#{content});
+    </insert>
+    <update id="update">
+        UPDATE mail
+        <set>
+            <if test="sender!=null and sender.id != null and sender.id != ''">
+                sender= #{sender.id},
+            </if>
+            <if test="receiver!=null and receiver.id != null and receiver.id != ''">
+                receiver= #{receiver.id},
+            </if>
+            <if test="time!= null and time != ''">
+                time= #{time},
+            </if>
+            <if test="content != null and content != ''">
+                content = #{content},
+            </if>
+        </set>
+        where id = #{id}
+    </update>
+
+    <delete id="delete">
+        DELETE FROM mail WHERE id=#{id}
+    </delete>
+
+    <select id="get" resultMap="getMail">
+        SELECT * FROM mail WHERE id = #{id}
+    </select>
+
+    <select id="getT" resultMap="getMail">
+        select * from mail
+        <where>
+            <if test="sender!=null and sender.id != null and sender.id != ''">
+                and sender= #{sender.id},
+            </if>
+            <if test="receiver!=null and receiver.id != null and receiver.id != ''">
+                and receiver= #{receiver.id},
+            </if>
+            <if test="time!= null and time != ''">
+                and time= #{time},
+            </if>
+            <if test="content != null and content != ''">
+                and content = #{content},
+            </if>
+        </where>
+        order by id desc
+    </select>
+
+
+    <select id="findList" resultMap="getMail">
+        SELECT * FROM mail
+        <where>
+            <if test="sender!=null and sender.id != null and sender.id != ''">
+                AND sender = #{sender.id}
+            </if>
+            <if test="receiver!=null and receiver.id != null and receiver.id != ''">
+                AND receiver= #{receiver.id}
+            </if>
+            <if test="time!= null and time != ''">
+                AND time= #{time}
+            </if>
+            <if test="content != null and content != ''">
+                AND content LIKE concat('%', #{content}, '%')
+            </if>
+        </where>
+        ORDER BY id DESC
+    </select>
+    <select id="findAllList" resultMap="getMail">
+        SELECT * FROM mail ORDER BY id DESC
+    </select>
+</mapper>

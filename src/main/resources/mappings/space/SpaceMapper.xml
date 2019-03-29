@@ -1,0 +1,115 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<!--命名空间应该是对应接口的包名+接口名 -->
+<mapper namespace="com.bsc.modules.space.dao.SpaceMapper">
+
+    <resultMap id="getSpace" type="com.bsc.modules.space.entity.Space">
+        <id property="id" column="id"/>
+        <result property="creator.id" column="creator"/>
+        <result property="name" column="name"/>
+        <result property="type" column="type"/>
+        <result property="time" column="time"/>
+        <result property="intro" column="intro"/>
+    </resultMap>
+    <insert id="insert">
+        INSERT INTO
+        space(creator,name,type,time,intro)
+        VALUES(#{creator.id},#{name},#{type},#{time},#{intro});
+    </insert>
+    <update id="update">
+        UPDATE space
+        <set>
+            <if test="creator!=null and creator.id!= null and creator.id != ''">
+                creator= #{creator.id},
+            </if>
+            <if test="name != null and name != ''">
+                name = #{name},
+            </if>
+            <if test="type != null and type != ''">
+                type= #{type},
+            </if>
+            <if test="time!= null and time != ''">
+                time= #{time},
+            </if>
+            <if test="intro!= null and intro != ''">
+                intro= #{intro},
+            </if>
+        </set>
+        where id = #{id}
+    </update>
+
+    <delete id="delete">
+        DELETE FROM space WHERE id=#{id}
+    </delete>
+
+    <select id="get" resultMap="getSpace">
+        SELECT * FROM space WHERE id = #{id}
+    </select>
+
+    <select id="getT" resultMap="getSpace">
+        select * from space
+        <where>
+            <if test="creator!=null and creator.id!= null and creator.id != ''">
+                and creator = #{creator.id}
+            </if>
+            <if test="name != null and name != ''">
+                and name = #{name}
+            </if>
+            <if test="type != null and type != ''">
+                and type = #{type}
+            </if>
+            <if test="time != null and time != ''">
+                and time = #{time}
+            </if>
+            <if test="intro != null and intro != ''">
+                and intro = #{intro}
+            </if>
+        </where>
+        ORDER BY id DESC
+    </select>
+
+    <select id="findList" resultMap="getSpace">
+        SELECT * FROM space
+        <where>
+            <if test="creator!=null and creator.id!= null and creator.id != ''">
+                and creator = #{creator.id}
+            </if>
+            <if test="name != null and name != ''">
+                and name = #{name}
+            </if>
+            <if test="type != null and type != ''">
+                and type = #{type}
+            </if>
+            <if test="time != null and time != ''">
+                and time = #{time}
+            </if>
+            <if test="intro != null and intro != ''">
+                and intro = #{intro}
+            </if>
+        </where>
+        ORDER BY id DESC
+    </select>
+    <select id="findAllList" resultMap="getSpace">
+        SELECT * FROM space ORDER BY id DESC
+    </select>
+    <select id="getQueryList" resultMap="getSpace">
+        SELECT * FROM space
+        <where>
+            <if test="creator!=null and creator.id!= null and creator.id != ''">
+                and creator = #{creator.id}
+            </if>
+            <if test="name != null and name != '' and intro != null and intro != ''">
+                AND name  LIKE concat('%',#{name},'%')
+                or intro  LIKE concat('%',#{intro},'%')
+            </if>
+            <if test="type != null and type != ''">
+                and type = #{type}
+            </if>
+            <if test="time != null and time != ''">
+                and time = #{time}
+            </if>
+        </where>
+        ORDER BY id DESC
+    </select>
+
+</mapper>
