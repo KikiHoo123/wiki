@@ -35,7 +35,7 @@
             <td align = "center">${space.type}</td>
             <td align = "center">${space.time}</td>
             <td align = "center">${space.intro}</td>
-            <td align="center" ><a href="${pageContext.request.contextPath}/space/get/${space.id}"><input type="button" value="详情"></a></td>
+            <td align="center" ><a href="${pageContext.request.contextPath}/space/get/${space.id}" target="_parent"><input type="button" value="详情"></a></td>
             <td align="center" ><a href="${pageContext.request.contextPath}/space/edit/${space.id}"><input type="button" value="编辑"></a></td>
             <td align="center" ><a href="${pageContext.request.contextPath}/space/del/${space.id}"><input type="button" value="删除"></a></td>
         </tr>
