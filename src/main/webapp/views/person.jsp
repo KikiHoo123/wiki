@@ -86,11 +86,8 @@
                 <a class="item" target="main"  href="${pageContext.request.contextPath}/user/get/${sessionScope.user.id}">
                     <i class="chat icon"></i> 个人信息
                 </a>
-                <a class="item" target="main"  href="${pageContext.request.contextPath}/space">
+                <a class="item" target="main"  href="${pageContext.request.contextPath}/interaction/collect/${sessionScope.uer.id}">
                     <i class="wikipedia icon"></i> 收藏空间
-                </a>
-                <a class="item" href="">
-                    <i class="at icon"></i> 页面树
                 </a>
             </div>
         </div>

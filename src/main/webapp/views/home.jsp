@@ -19,17 +19,6 @@
     <link rel="stylesheet"  href="../tools/lib/toastr/toastr.css" />
     <link rel="stylesheet" type="text/css"  href="../tools/css/md-github.css" />
     <link rel="stylesheet" type="text/css"  href="../tools/css/admin.css" />
-    <style>
-        .ui.reveal {
-            margin: auto;
-            width: 133px;
-        }
-
-        .ui.reveal i.icon.wikipedia:before {
-            position: relative;
-            left: -7px;
-        }
-    </style>
 </head>
 <body class="admin-index">
 <div  style="z-index:1992;" class="ui fixed inverted main menu">
@@ -98,11 +87,8 @@
                 <a class="item" target="main"  href="${pageContext.request.contextPath}/space">
                     <i class="chat icon"></i> 所有空间
                 </a>
-                <a class="item" target="main"  href="${pageContext.request.contextPath}/space">
+                <a class="item" target="main"  href="${pageContext.request.contextPath}/interaction/collect/${sessionScope.user.id}">
                     <i class="wikipedia icon"></i> 收藏空间
-                </a>
-                <a class="item" href="">
-                    <i class="at icon"></i> 页面树
                 </a>
             </div>
         </div>
