@@ -2,6 +2,7 @@ package com.bsc.modules.interaction.controller;
 import com.bsc.common.utils.DictUtils;
 import com.bsc.modules.interaction.entity.Interaction;
 import com.bsc.modules.interaction.service.InteractionService;
+import com.bsc.modules.user.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -21,6 +22,8 @@ import java.util.List;
 public class InteractionController {
     @Autowired    //创建实体后直接能使用getset
     private InteractionService interactionService;
+    @Autowired
+    private UserService userService;
     @RequestMapping(value = {"/list", "/", ""})
     private String list(Model model, Interaction interaction) {
         List<Interaction> interactionList = interactionService.findList(interaction);
@@ -103,5 +106,30 @@ public class InteractionController {
         }
         redirectAttributes.addFlashAttribute("msg", msg);
         return "redirect:/interaction/list";
+    }
+    /*
+    * 获取当前用户收藏的空间
+    * */
+    @RequestMapping(value="/collect/{id}")
+    private String collect(Interaction interaction,Model model,@PathVariable Integer id){
+        interaction.setUserID(userService.get(id));
+        interaction.setType("3");
+        List<Interaction> interactionList=interactionService.findList(interaction);
+        model.addAttribute("interactionList",interactionList);
+        return "/interaction/list";
+    }
+    /*
+    * 获取最近收藏的10个空间
+    * */
+    @RequestMapping(value = "/lastcollect/{id}")
+    private String lastcollect(Interaction interaction,Model model,@PathVariable Integer id){
+        interaction.setUserID(userService.get(id));
+        interaction.setType("3");
+        List<Interaction> interactionList=interactionService.findList(interaction);
+        if (interactionList.size()>10){
+            interactionList=interactionList.subList(0,10);
+        }
+        model.addAttribute("interactionList",interactionList);
+        return "";
     }
 }
