@@ -94,7 +94,7 @@ public class SpaceController {
          wiki.setSpace(space);
          List<Wiki> wikiList=wikiService.findList(wiki);
          model.addAttribute("wikiList",wikiList);
-         return "space/person";
+         return "space/userSpace";
      }
     /**
      * 删除
@@ -122,7 +122,6 @@ public class SpaceController {
     private String edit(@PathVariable Integer id,Model model, Space space) {
         if (id != null) {
             space = spaceService.get(id);
-        //    space.setType(DictUtils.getDictLabel(space.getType(),"SPACE"));
         }
         model.addAttribute("space", space);
         Smember smember=new Smember();
@@ -149,13 +148,14 @@ public class SpaceController {
      * @return
      */
     @RequestMapping(value = {"/save","/save/{id}"})
-    private String save(Space space,RedirectAttributes redirectAttributes ,Smember smember,Tmember tmember) {
+    private String save(Space space,RedirectAttributes redirectAttributes ,Smember smember,Tmember tmember,@RequestParam("creator") int id) {
         String msg = "保存失败";
         int successNum = 0;
         Date date=new Date();
         Timestamp timestamp=new Timestamp(date.getTime());
         space.setTime(timestamp.toString().substring(0,19));
         if (space.getId() == null) {
+            space.setCreator(userService.get(id));
             successNum = spaceService.insert(space);
             smember.setSpaceID(space);
             String []members=request.getParameterValues("member");

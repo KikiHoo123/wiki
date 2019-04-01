@@ -5,7 +5,7 @@
          id="WebApp_ID" version="3.0">
 
   <welcome-file-list>
-    <welcome-file>login.jsp</welcome-file>
+    <welcome-file>views/sys/login.jsp</welcome-file>
   </welcome-file-list>
 
   <listener>

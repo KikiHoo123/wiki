@@ -10,37 +10,31 @@
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <html>
 <head>
-    <title>创建新团队</title>
 </head>
 <body>
 <%--@elvariable id="team" type="com.bsc.modules.team.entity.Team"--%>
 <form:form modelAttribute="team" id="form1" action="${pageContext.request.contextPath}/team/save">
+    <input hidden value="${sessionScope.user.id}" name="creator"/>
     <table align="center">
         <tr>
-            <td>creator</td>
-            <td><form:input path="creator.id"/></td>
-        </tr>
-        <tr>
-            <td>team name</td>
+            <td>团队名称</td>
             <td><form:input path="title"/></td>
         </tr>
         <tr>
-            <td>team introduction</td>
+            <td>团队介绍</td>
             <td><form:input path="intro"/></td>
         </tr>
-        <tr>
-            <td>time</td>
-            <td><form:input path="time"/></td>
-        </tr>
-        <tr>
+        <tr align="center">
             <select name="tmember" multiple="multiple">
                 <c:forEach var="user" items="${userList}">
                     <option value="${user.id}">${user.name}(${user.num})</option>
                 </c:forEach>
             </select>
         </tr>
+        <tr>
+            <input type="submit" value="保存">
+        </tr>
     </table>
-    <input type="submit" value="提交">
 </form:form>
 </body>
 </html>

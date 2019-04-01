@@ -11,6 +11,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import javax.servlet.http.HttpServletRequest;
@@ -71,13 +72,14 @@ public class TeamController {
         return "team/add";
     }
     @RequestMapping(value = {"/save","/save/{id}"})
-    private String save(Team team,RedirectAttributes redirectAttributes,Tmember tmember){
+    private String save(Team team, RedirectAttributes redirectAttributes, Tmember tmember, @RequestParam("creator") int id){
         String msg="保存失败！";
         int successNum=0;
         if(team.getId()==null){
             Date date=new Date();
             Timestamp timestamp=new Timestamp(date.getTime());
             team.setTime(timestamp.toString().substring(0,19));
+            team.setCreator(userService.get(id));
             successNum=teamService.insert(team);
             String []users=request.getParameterValues("tmember");
             for(int i = 0; i<users.length; i++){

@@ -15,11 +15,8 @@
 <body>
 <%--@elvariable id="space" type="com.bsc.modules.space.entity.Space"--%>
 <form:form modelAttribute="space" action="${pageContext.request.contextPath}/space/save/${space.id}">
+    <input hidden name="creator" value="${sessionScope.user.id}"/>
     <table>
-        <tr>
-            <td>创建人id</td>
-            <td><form:input path="creator.id"/></td>
-        </tr>
         <tr>
             <td>空间名</td>
             <td><form:input path="name"/></td>

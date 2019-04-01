@@ -1,6 +1,5 @@
 package com.bsc.modules.user.controller;
 import com.bsc.common.persistence.BaseController;
-import com.bsc.modules.user.dao.UserMapper;
 import com.bsc.modules.user.entity.User;
 import com.bsc.modules.user.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -131,7 +130,7 @@ public class UserController extends BaseController {
         } else if (user.getPassword().equals(password)) {           //密码匹配，则登陆成功
             session.setAttribute("user", user);
             msg = "登陆成功";   //登陆成功
-            return "/home";
+            return "sys/home";
         } else {                                                //账号密码不匹配，登陆失败
             msg = "密码错误";   //密码错误，登录失败
             return "redirect:login.jsp";
@@ -149,16 +148,16 @@ public class UserController extends BaseController {
         public String loginOut (HttpSession session, SessionStatus sessionStatus){
             session.invalidate();
             sessionStatus.setComplete();
-            return "redirect:login.jsp";
+            return "redirect:sys/login";
         }
 
         @RequestMapping("/home")      //返回首页
         public String toIndex () {
-            return "/home";
+            return "sys/home";
         }
         @RequestMapping("/person")
     public String person(){
-            return "/person";
+            return "user/userSpace";
         }
     }
 
