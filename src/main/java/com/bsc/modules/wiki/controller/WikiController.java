@@ -2,6 +2,9 @@ package com.bsc.modules.wiki.controller;
 
 import com.bsc.common.utils.DictUtils;
 import com.bsc.common.utils.Page;
+import com.bsc.modules.space.entity.Space;
+import com.bsc.modules.space.service.SpaceService;
+import com.bsc.modules.user.entity.User;
 import com.bsc.modules.wiki.dao.WikiMapper;
 import com.bsc.modules.wiki.entity.Wiki;
 import com.bsc.modules.wiki.service.WikiService;
@@ -13,6 +16,7 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import javax.servlet.http.HttpServletRequest;
@@ -33,6 +37,10 @@ public class WikiController {
     private WikiService wikiService;
     @Autowired
     private WikiMapper wikiMapper;
+    @Autowired
+    private SpaceService spaceService;
+    @Autowired
+    private HttpSession session;
     @RequestMapping(value = {"", "list"})
     private String list(Model model, Wiki wiki) {
         List<Wiki> wikiList = wikiService.findList(wiki);
@@ -72,25 +80,31 @@ public class WikiController {
         return "wiki/edit";
     }
 
-    @RequestMapping("/add")
-    private String add(Wiki wiki, Model model) {
+    @RequestMapping("/add/{id}")
+    private String add(Wiki wiki, Model model,@PathVariable Integer id) {
         wiki = new Wiki();
         model.addAttribute("wiki", wiki);
+        Space space=spaceService.get(id);
+        model.addAttribute("space",space);
         return "wiki/add";
     }
 
-    @RequestMapping(value = {"/save", "/save/{id}"})
-    private String save(Wiki wiki, RedirectAttributes redirectAttributes) {
+    @RequestMapping(value = {"/{sid}/save", "/save/{id}"})
+    private String save(Wiki wiki, RedirectAttributes redirectAttributes,@PathVariable Integer sid) {
         String msg = "保存失败！";
         int successNum = 0;
-        wiki.setType(DictUtils.getDictValue(wiki.getType(), "GENDER"));
         Date date=new Date();
         Timestamp timestamp=new Timestamp(date.getTime());
         if (wiki.getId() == null) {
             wiki.setTime(timestamp.toString().substring(0,19));
             wiki.setLasttime(wiki.getTime());
+            wiki.setCreator((User)session.getAttribute("user"));
+            wiki.setModifier(wiki.getCreator());
+            Space space=spaceService.get(sid);
+            wiki.setSpace(space);
             successNum = wikiService.insert(wiki);
         } else {
+            wiki.setModifier((User)session.getAttribute("user"));
             wiki.setLasttime(timestamp.toString().substring(0,19));
             successNum = wikiService.update(wiki);
         }

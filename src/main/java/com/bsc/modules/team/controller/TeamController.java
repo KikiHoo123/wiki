@@ -1,5 +1,9 @@
 package com.bsc.modules.team.controller;
 
+import com.bsc.modules.interaction.entity.Interaction;
+import com.bsc.modules.interaction.service.InteractionService;
+import com.bsc.modules.space.entity.Space;
+import com.bsc.modules.space.service.SpaceService;
 import com.bsc.modules.team.entity.Team;
 import com.bsc.modules.team.entity.Tmember;
 import com.bsc.modules.team.service.TeamService;
@@ -16,6 +20,7 @@ import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletRequest.*;
+import javax.servlet.http.HttpSession;
 import java.sql.Timestamp;
 import java.util.Date;
 import java.util.List;
@@ -31,11 +36,21 @@ public class TeamController {
     private UserService userService;
     @Autowired
     private HttpServletRequest request;
+    @Autowired
+    private SpaceService spaceService;
+    @Autowired
+    private HttpSession session;
     @RequestMapping(value = {"","list"})
     private String list(Model model,Team team){
         List<Team> teamList=teamService.findList(team);
         model.addAttribute("teamList",teamList);
         return "team/list";
+    }
+    @RequestMapping(value = "/detail/{id}")
+    private String detail(Space space,Model model,@PathVariable Integer id){
+        space=spaceService.get(id);
+        model.addAttribute("space",space);
+        return "team/teamSpace";
     }
     @RequestMapping("/get/{id}")
     private String get(Model model, @PathVariable Integer id,Tmember tmember){
@@ -72,16 +87,15 @@ public class TeamController {
         return "team/add";
     }
     @RequestMapping(value = {"/save","/save/{id}"})
-    private String save(Team team, RedirectAttributes redirectAttributes, Tmember tmember, @RequestParam("creator") int id){
+    private String save(Team team, RedirectAttributes redirectAttributes, Tmember tmember,@RequestParam("tmember") String []users){
         String msg="保存失败！";
         int successNum=0;
+        Date date=new Date();
+        Timestamp timestamp=new Timestamp(date.getTime());
+        team.setTime(timestamp.toString().substring(0,19));
         if(team.getId()==null){
-            Date date=new Date();
-            Timestamp timestamp=new Timestamp(date.getTime());
-            team.setTime(timestamp.toString().substring(0,19));
-            team.setCreator(userService.get(id));
-            successNum=teamService.insert(team);
-            String []users=request.getParameterValues("tmember");
+            team.setCreator((User)session.getAttribute("user"));
+            successNum=teamService.insert(team);;
             for(int i = 0; i<users.length; i++){
                 tmember.setTeam(team);
                 tmember.setMember(userService.get(Integer.valueOf(users[i])));

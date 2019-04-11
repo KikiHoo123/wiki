@@ -3,7 +3,6 @@
 <%@ taglib prefix="form" uri="http://www.springframework.org/tags/form" %>
 <%@ taglib prefix="fmt" uri="http://java.sun.com/jstl/fmt_rt" %>
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
-<%@ page import="com.github.pagehelper.PageHelper"%>
 <!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
 <%--
   Created by IntelliJ IDEA.
@@ -15,38 +14,21 @@
 <html>
 <head>
     <title>wiki列表</title>
+    <link rel="stylesheet" type="text/css"  href="${pageContext.request.contextPath}/tools/css/style.css" />
 </head>
 <body >
 <c:out value="${msg}"/>
 <table align="center">
-    <!--<tr>
-        <th colspan="7" align="left"><a href="${pageContext.request.contextPath}/wiki/add">添加</a></th>
-    </tr>-->
-    <tr>
-        <!--<th>父节点</th>-->
-        <!--<th>所属空间</th>-->
-        <th>标题</th>
-        <th>创建人</th>
-        <!--<th>创建时间</th>-->
-        <th>内容</th>
-        <!--<th>最近修改人</th>-->
-        <th>最近修改时间</th>
-
-        <th colspan="2">操作</th>
-    </tr>
     <c:forEach items="${wikiList}" var="wiki">
-        <tr>
-            <td><a href="${pageContext.request.contextPath}/wiki/get/${wiki.id}">${wiki.title}</a></td>
-            <!--<td>${wiki.space.name}</td>
-            <td>${wiki.title}</td>-->
-            <td>${wiki.creator.name}</td>
-            <!--<td>${wiki.time}</td>-->
-            <td>${wiki.content}</td>
-            <!--${wiki.modifier.name}</td>--><td>
-            <td>${wiki.lasttime}</td>
-            <td><a href="${pageContext.request.contextPath}/wiki/edit/${wiki.id}">修改</a></td>
-            <td><a href="${pageContext.request.contextPath}/wiki/del/${wiki.id}">删除</a></td>
-        </tr>
+    <div class="search-result">
+        <h3><a href="${pageContext.request.contextPath}/wiki/get/${wiki.id}">${wiki.title}</a></h3>
+        <a href="search_results.html#" class="search-link">‎${wiki.space.name}</a>
+        <p>${wiki.content}
+        </p>
+        <a href="${pageContext.request.contextPath}/wiki/edit/${wiki.id}">修改</a>
+        <a href="${pageContext.request.contextPath}/wiki/del/${wiki.id}">删除</a>
+    </div>
+        <div class="hr-line-dashed"></div>
     </c:forEach>
 </table>
 </body>

@@ -14,10 +14,10 @@
     <meta name="viewport" content="width=device-width,initial-scale=1.0,minimum-scale=1.0,maximum-scale=1.0,user-scalable=no" />
     <title>BSC-主页</title>
     <!-- css -->
-    <link rel="stylesheet" type="text/css"  href="../tools/lib/semantic/semantic.min.css" />
-    <link rel="stylesheet"  href="../tools/lib/toastr/toastr.css" />
-    <link rel="stylesheet" type="text/css"  href="../tools/css/md-github.css" />
-    <link rel="stylesheet" type="text/css"  href="../tools/css/admin.css" />
+    <link rel="stylesheet" type="text/css"  href="${pageContext.request.contextPath}/tools/lib/semantic/semantic.min.css" />
+    <link rel="stylesheet"  href="${pageContext.request.contextPath}/tools/lib/toastr/toastr.css" />
+    <link rel="stylesheet" type="text/css"  href="${pageContext.request.contextPath}/tools/css/md-github.css" />
+    <link rel="stylesheet" type="text/css"  href="${pageContext.request.contextPath}/tools/css/admin.css" />
 </head>
 <body class="admin-index">
 <div  style="z-index:1992;" class="ui fixed inverted main menu">
@@ -96,8 +96,8 @@
             </iframe>
         </div>
     </div>
-    <script type="text/javascript"  src="../tools/js/deps-base.js"></script>
-    <script type="text/javascript"  src="../tools/js/admin.js"></script>
+    <script type="text/javascript"  src="${pageContext.request.contextPath}/tools/js/deps-base.js"></script>
+    <script type="text/javascript"  src="${pageContext.request.contextPath}/tools/js/admin.js"></script>
 </div>
 </body>
 </html>

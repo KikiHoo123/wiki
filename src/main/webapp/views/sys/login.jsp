@@ -11,12 +11,12 @@
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0">
     <title>登录</title>
-    <link href="tools/css/bootstrap.min.css" rel="stylesheet">
-    <link href="tools/css/font-awesome.css?v=4.4.0" rel="stylesheet">
-    <link href="tools/css/animate.css" rel="stylesheet">
-    <link href="tools/css/style.css" rel="stylesheet">
-    <link href="tools/css/login.css" rel="stylesheet">
-	<script type="text/javascript" src="tools/js/jquery.min.js"></script>
+    <link href="${pageContext.request.contextPath}/tools/css/bootstrap.min.css" rel="stylesheet">
+    <link href="${pageContext.request.contextPath}/tools/css/font-awesome.css?v=4.4.0" rel="stylesheet">
+    <link href="${pageContext.request.contextPath}/tools/css/animate.css" rel="stylesheet">
+    <link href="${pageContext.request.contextPath}/tools/css/style.css" rel="stylesheet">
+    <link href="${pageContext.request.contextPath}/tools/css/login.css" rel="stylesheet">
+	<script type="text/javascript" src="${pageContext.request.contextPath}/tools/js/jquery.min.js"></script>
 </head>
 
 <body class="signin">
@@ -32,7 +32,7 @@
             </div>
         </div>
         <div class="col-sm-5">
-            <form method="post" name="form1" action="${pageContext.request.contextPath}/user/login">
+            <form method="post" name="form1" action="${pageContext.request.contextPath}/sys/login">
                 <h4 class="no-margins">登录：</h4>
                 <p class="m-t-md"></p>
                 <input type="text" name="num" class="form-control uname" placeholder="学号/教工号" />

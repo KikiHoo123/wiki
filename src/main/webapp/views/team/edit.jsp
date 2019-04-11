@@ -25,7 +25,7 @@
             <td><form:input path="title"/></td>
         </tr>
         <tr>
-            <td>team introoduction</td>
+            <td>team introduction</td>
             <td><form:input path="intro"/></td>
         </tr>
         <tr>
@@ -44,7 +44,7 @@
             <td><a href="${pageContext.request.contextPath}/tmember/edit">添加成员</a></td>
         </tr>
         <tr>
-            <td><input type="submit" value="submit"/> </td>
+            <td><input type="submit" value="保存"/> </td>
         </tr>
     </table>
 </form:form>

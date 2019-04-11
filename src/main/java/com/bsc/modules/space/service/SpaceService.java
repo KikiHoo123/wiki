@@ -32,7 +32,6 @@ public class SpaceService  extends CrudService<SpaceMapper,Space> {
         Space space = spaceMapper.get(id);//根据id
         Smember smember=new Smember();
         smember.setSpaceID(space);
-        space.setSmemberList(smemberMapper.findList(smember));
         space.setCreator(userService.get(space.getCreator().getId()));
         return space;
     }

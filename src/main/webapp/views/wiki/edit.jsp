@@ -36,15 +36,17 @@
             </td>
         </tr>-->
         <tr>
-            <td>wiki title</td>
+            <td><h4>请输入标题</h4></td>
+        </tr>
+        <tr>
             <td><form:input path="title"/></td>
         </tr>
         <tr>
-            <td>wiki content</td>
+            <td><h4>请输入内容</h4></td>
+        </tr>
+        <tr>
             <td>
-                <textarea id="editor" placeholder="这里输入内容" autofocus>
                     <form:input path="content"/>
-                </textarea>
             </td>
         </tr>
         <tr>

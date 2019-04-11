@@ -6,21 +6,12 @@ import com.bsc.modules.user.entity.User;
 import java.util.List;
 
 public class Space extends BaseEntity {
-   // private User user;
     private User creator;
     private String name;
     private String type;
     private String time;
     private String intro;
-    private List<Smember> smemberList;
 
-   /* public User getUser() {
-        return user;
-    }
-
-    public void setUser(User user) {
-        this.user = user;
-    }*/
     public User getCreator() {
         return creator;
     }
@@ -59,13 +50,6 @@ public class Space extends BaseEntity {
 
     public void setIntro(String intro) {
         this.intro = intro;
-    }
-    public List<Smember> getSmemberList() {
-        return smemberList;
-    }
-
-    public void setSmemberList(List<Smember> smemberList) {
-        this.smemberList = smemberList;
     }
 
 

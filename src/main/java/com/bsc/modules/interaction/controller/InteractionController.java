@@ -42,7 +42,6 @@ public class InteractionController {
     @RequestMapping("/get/{id}")
     private String get(Model model, @PathVariable Integer id) {
         Interaction interaction = interactionService.get(id);
-        interaction.setType(DictUtils.getDictLabel(interaction.getType(),"INTERACT"));
         model.addAttribute("interaction", interaction);
         return "interaction/view";
     }

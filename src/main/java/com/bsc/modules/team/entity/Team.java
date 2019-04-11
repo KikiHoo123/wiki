@@ -3,6 +3,8 @@ package com.bsc.modules.team.entity;
 import com.bsc.common.persistence.BaseEntity;
 import com.bsc.modules.user.entity.User;
 
+import java.util.List;
+
 public class Team extends BaseEntity{
     private User creator;
     private String time;

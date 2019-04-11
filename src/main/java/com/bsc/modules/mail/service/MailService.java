@@ -17,7 +17,6 @@ public class MailService extends CrudService<MailMapper,Mail> {
     private MailMapper mailMapper;
     @Autowired
     private MailService mailService;
-
     @Autowired
     private UserService userService;
 

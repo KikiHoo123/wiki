@@ -7,7 +7,6 @@ import com.bsc.modules.space.service.SpaceService;
 import com.bsc.modules.user.service.UserService;
 import com.bsc.modules.wiki.dao.WikiMapper;
 import com.bsc.modules.wiki.entity.Wiki;
-import com.github.pagehelper.PageHelper;
 import com.github.pagehelper.PageInfo;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;

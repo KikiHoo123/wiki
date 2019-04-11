@@ -46,17 +46,12 @@ public class SpaceController {
 	@Autowired
     private UserService userService;
 	@Autowired
-    private SmemberService smemberService;
-	@Autowired
     private WikiService wikiService;
 	@Autowired
-    private TeamService teamService;
-    @Autowired
-    private HttpServletRequest request;
-    @Autowired
-    private TmemberService tmemberService;
+    private HttpSession session;
     @RequestMapping(value = {"/list", "/", ""})
     private String list(Model model, Space space) {
+        space.setType("2");//team space
         List<Space> spaceList = spaceService.findList(space);
         model.addAttribute("spaceList", spaceList);
         return "space/list";
@@ -81,7 +76,7 @@ public class SpaceController {
     }
 	
 	/**
-     *根据当前用户id获取个人空间
+     *根据当前用户id获取空间
     */
      @RequestMapping("/person/{id}")
      private String person(Model model, @PathVariable Integer id){
@@ -94,7 +89,7 @@ public class SpaceController {
          wiki.setSpace(space);
          List<Wiki> wikiList=wikiService.findList(wiki);
          model.addAttribute("wikiList",wikiList);
-         return "space/userSpace";
+         return "space/view";
      }
     /**
      * 删除
@@ -124,21 +119,12 @@ public class SpaceController {
             space = spaceService.get(id);
         }
         model.addAttribute("space", space);
-        Smember smember=new Smember();
-        List<Smember> smemberList=smemberService.findListForgein(space,smember);
-        model.addAttribute("smemberList",smemberList);
         return "space/edit";
     }
     @RequestMapping("/add")
     public String add(Model model, Space space){
         space=new Space();
         model.addAttribute("space",space);
-        User user=new User();
-        List<User> userList=userService.findList(user);
-        model.addAttribute("userList",userList);
-        Team team=new Team();
-        List<Team> teamList=teamService.findList(team);
-        model.addAttribute("teamList",teamList);
         return "space/edit";
     }
     /**
@@ -148,30 +134,16 @@ public class SpaceController {
      * @return
      */
     @RequestMapping(value = {"/save","/save/{id}"})
-    private String save(Space space,RedirectAttributes redirectAttributes ,Smember smember,Tmember tmember,@RequestParam("creator") int id) {
+    private String save(Space space,RedirectAttributes redirectAttributes ) {
         String msg = "保存失败";
         int successNum = 0;
-        Date date=new Date();
-        Timestamp timestamp=new Timestamp(date.getTime());
-        space.setTime(timestamp.toString().substring(0,19));
         if (space.getId() == null) {
-            space.setCreator(userService.get(id));
+            Date date=new Date();
+            Timestamp timestamp=new Timestamp(date.getTime());
+            space.setTime(timestamp.toString().substring(0,19));
+            space.setType("2");
+            space.setCreator((User)session.getAttribute("user"));
             successNum = spaceService.insert(space);
-            smember.setSpaceID(space);
-            String []members=request.getParameterValues("member");
-            for(int i = 0; i<members.length; i++){
-                smember.setMember(userService.get(Integer.valueOf(members[i])));
-                smemberService.insert(smember);
-            }
-            String []teams=request.getParameterValues("team");
-            for (int i=0;i<teams.length;i++){
-                List<Tmember> tmemberList=tmemberService.findListForgein(teamService.get(Integer.valueOf(teams[i])),tmember);
-                for (int j=0;j<tmemberList.size();j++){
-                    smember.setMember(tmemberList.get(i).getMember());
-                    smemberService.insert(smember);
-                }
-            }
-
         } else {
             successNum = spaceService.update(space);
         }

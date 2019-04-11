@@ -16,6 +16,14 @@
 <form:form modelAttribute="team" id="form1" action="${pageContext.request.contextPath}/team/save">
     <input hidden value="${sessionScope.user.id}" name="creator"/>
     <table align="center">
+        <!--<tr>
+            <td>creator</td>
+            <td><form:input path="creator.id"/></td>
+        </tr>
+        <tr>
+            <td>time</td>
+            <td><form:input path="time"/></td>
+        </tr>-->
         <tr>
             <td>团队名称</td>
             <td><form:input path="title"/></td>
@@ -24,15 +32,18 @@
             <td>团队介绍</td>
             <td><form:input path="intro"/></td>
         </tr>
-        <tr align="center">
-            <select name="tmember" multiple="multiple">
+        <tr>
+            <td>选择成员</td>
+            <td><select name="tmember" multiple="multiple">
                 <c:forEach var="user" items="${userList}">
                     <option value="${user.id}">${user.name}(${user.num})</option>
                 </c:forEach>
             </select>
+            </td>
         </tr>
         <tr>
-            <input type="submit" value="保存">
+            <td></td>
+            <td><input type="submit" value="保存"></td>
         </tr>
     </table>
 </form:form>
