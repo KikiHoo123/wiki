@@ -1,15 +1,8 @@
 package com.bsc.modules.space.controller;
 import com.bsc.common.utils.DictUtils;
-import com.bsc.modules.space.dao.SmemberMapper;
 import com.bsc.modules.space.dao.SpaceMapper;
-import com.bsc.modules.space.entity.Smember;
 import com.bsc.modules.space.entity.Space;
-import com.bsc.modules.space.service.SmemberService;
 import com.bsc.modules.space.service.SpaceService;
-import com.bsc.modules.team.entity.Team;
-import com.bsc.modules.team.entity.Tmember;
-import com.bsc.modules.team.service.TeamService;
-import com.bsc.modules.team.service.TmemberService;
 import com.bsc.modules.user.entity.User;
 import com.bsc.modules.user.service.UserService;
 import com.bsc.modules.wiki.entity.Wiki;
@@ -21,17 +14,13 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
-
 import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 import java.io.UnsupportedEncodingException;
 import java.sql.Timestamp;
 import java.util.Date;
 import java.util.List;
-import java.util.Map;
 
 /**
  * @author YangRui
@@ -50,10 +39,24 @@ public class SpaceController {
 	@Autowired
     private HttpSession session;
     @RequestMapping(value = {"/list", "/", ""})
-    private String list(Model model, Space space) {
+    private String list(HttpServletRequest request, Model model, Space space) {
+        int pageNum=1;
+        if(request.getParameter("pageNum")==null || "".equals(request.getParameter("page"))){
+            pageNum=1;
+        }
+        else{
+            pageNum=Integer.parseInt(request.getParameter("pageNum"));
+        }
+        PageHelper.startPage(pageNum, 5);
         space.setType("2");//team space
-        List<Space> spaceList = spaceService.findList(space);
-        model.addAttribute("spaceList", spaceList);
+        List<Space> spaceList=spaceService.findList(space);
+        for (int i = 0; i < spaceList.size(); i++) {
+            spaceList.get(i).setType(DictUtils.getDictLabel(spaceList.get(i).getType(), "SPACE"));
+        }
+        PageInfo<Space> spacePageInfo = new PageInfo<>(spaceList);//得到分页中的space条目对象
+        List<Space> pageList = spacePageInfo.getList();
+        model.addAttribute("pageInfo" , pageList); //将结果存入model进行传送
+        model.addAttribute("spaceList",spaceList);
         return "space/list";
     }
 
@@ -83,6 +86,13 @@ public class SpaceController {
          Space space =new Space();
          space.setCreator(userService.get(id));
          space.setType("1");
+       //  space.setName(userService.get(id).getName()+"的主页");
+         /*if(space.getId()==null){
+             Date date=new Date();
+             Timestamp timestamp=new Timestamp(date.getTime());
+             space.setTime(timestamp.toString().substring(0,19));
+             spaceService.insert(space);
+         }*/
          space=spaceService.getT(space);
          model.addAttribute("space", space);
          Wiki wiki=new Wiki();
@@ -154,39 +164,34 @@ public class SpaceController {
         return "redirect:/space/list";
     }
 
-  @RequestMapping("/queryList")
-  private String query(HttpServletRequest request, HttpSession httpSession, Space space, Map<String, Object> result) throws UnsupportedEncodingException {
-      // request.setCharacterEncoding("UTF-8");
-      //response.setCharacterEncoding("UTF-8");
-      int pageNum=1;
-      if(request.getParameter("pageNum")==null || "".equals(request.getParameter("page"))){
-          pageNum=1;
-      }
-      else{
-          pageNum=Integer.parseInt(request.getParameter("pageNum"));
-      }
-      String condition = new String(request.getParameter("condition"));
-      httpSession.setAttribute("condition",condition);
-      PageHelper.startPage(pageNum, 3);
-      space.setName(condition);
-      space.setIntro(condition);
-      List<Space> spaceList=spaceMapper.getQueryList(space);
-      for (int i = 0; i < spaceList.size(); i++) {
-          spaceList.get(i).setType(DictUtils.getDictLabel(spaceList.get(i).getType(), "SPACE"));
-      }
-      PageInfo<Space> spacePageInfo = new PageInfo<>(spaceList);
-      //得到分页中的person条目对象
-      List<Space> pageList = spacePageInfo.getList();
-      //将结果存入map进行传送
-      result.put("pageInfo" , pageList);
-      request.setAttribute("spaceList",spaceList);
-      //   request.setAttribute("pageInfo", pageInfo);
-      return "space/list";
-  }
+    @RequestMapping("/queryList")
+    private String query(HttpServletRequest request, HttpSession httpSession, Space space, Model model) throws UnsupportedEncodingException {
+        int pageNum=1;
+        if(request.getParameter("pageNum")==null || "".equals(request.getParameter("page"))){
+            pageNum=1;
+        }
+        else{
+            pageNum=Integer.parseInt(request.getParameter("pageNum"));
+        }
+        String condition = new String(request.getParameter("condition"));
+        httpSession.setAttribute("condition",condition);
+        PageHelper.startPage(pageNum, 5);
+        space.setName(condition);
+        space.setIntro(condition);
+        List<Space> spaceList=spaceService.getQueryList(space);
+        for (int i = 0; i < spaceList.size(); i++) {
+            spaceList.get(i).setType(DictUtils.getDictLabel(spaceList.get(i).getType(), "SPACE"));
+        }
+        PageInfo<Space> spacePageInfo = new PageInfo<>(spaceList);  //得到分页中的space条目对象
+        List<Space> pageList = spacePageInfo.getList(); //将结果存入model进行传送
+        model.addAttribute("pageInfo" , pageList);
+        model.addAttribute("spaceList",spaceList);
+        return "space/list";
+    }
 
 
     @RequestMapping("/listByPage")
-    private String listByPage(HttpServletRequest request, HttpSession httpSession, Space space, Map<String, Object> result) throws UnsupportedEncodingException {
+    private String listByPage(HttpServletRequest request, HttpSession httpSession, Space space,Model model) throws UnsupportedEncodingException {
         int pageNum=1;
         if(request.getParameter("pageNum")==null || "".equals(request.getParameter("page"))){
             pageNum=1;
@@ -195,19 +200,17 @@ public class SpaceController {
             pageNum=Integer.parseInt(request.getParameter("pageNum"));
         }
         String condition=(String)httpSession.getAttribute("condition");
-        PageHelper.startPage(pageNum, 3);
+        PageHelper.startPage(pageNum, 5);
         space.setName(condition);
         space.setIntro(condition);
-        List<Space> spaceList=spaceMapper.getQueryList(space);
+        List<Space> spaceList=spaceService.getQueryList(space);
         for (int i = 0; i < spaceList.size(); i++) {
             spaceList.get(i).setType(DictUtils.getDictLabel(spaceList.get(i).getType(), "SPACE"));
         }
-        PageInfo<Space> spacePageInfo = new PageInfo<>(spaceList);
-        //得到分页中的wiki条目对象
+        PageInfo<Space> spacePageInfo = new PageInfo<>(spaceList);//得到分页中的space条目对象
         List<Space> pageList = spacePageInfo.getList();
-        //将结果存入map进行传送
-        result.put("pageInfo" , pageList);
-        request.setAttribute("spaceList",spaceList);
+        model.addAttribute("pageInfo" , pageList); //将结果存入model进行传送
+        model.addAttribute("spaceList",spaceList);
         return "space/listBypage";
     }
 }

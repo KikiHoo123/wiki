@@ -1,5 +1,6 @@
 package com.bsc.modules.team.controller;
 
+import com.bsc.common.utils.DictUtils;
 import com.bsc.modules.interaction.entity.Interaction;
 import com.bsc.modules.interaction.service.InteractionService;
 import com.bsc.modules.space.entity.Space;
@@ -10,6 +11,8 @@ import com.bsc.modules.team.service.TeamService;
 import com.bsc.modules.team.service.TmemberService;
 import com.bsc.modules.user.entity.User;
 import com.bsc.modules.user.service.UserService;
+import com.github.pagehelper.PageHelper;
+import com.github.pagehelper.PageInfo;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -35,14 +38,25 @@ public class TeamController {
     @Autowired
     private UserService userService;
     @Autowired
-    private HttpServletRequest request;
-    @Autowired
     private SpaceService spaceService;
     @Autowired
     private HttpSession session;
+    @Autowired
+    private HttpServletRequest request;
     @RequestMapping(value = {"","list"})
     private String list(Model model,Team team){
+        int pageNum=1;
+        if(request.getParameter("pageNum")==null || "".equals(request.getParameter("page"))){
+            pageNum=1;
+        }
+        else{
+            pageNum=Integer.parseInt(request.getParameter("pageNum"));
+        }
+        PageHelper.startPage(pageNum, 5);
         List<Team> teamList=teamService.findList(team);
+        PageInfo<Team> spacePageInfo = new PageInfo<>(teamList);//得到分页中的space条目对象
+        List<Team> pageList = spacePageInfo.getList();
+        model.addAttribute("pageInfo" , pageList); //将结果存入model进行传送
         model.addAttribute("teamList",teamList);
         return "team/list";
     }
@@ -87,15 +101,16 @@ public class TeamController {
         return "team/add";
     }
     @RequestMapping(value = {"/save","/save/{id}"})
-    private String save(Team team, RedirectAttributes redirectAttributes, Tmember tmember,@RequestParam("tmember") String []users){
+    private String save(Team team, RedirectAttributes redirectAttributes,@RequestParam("tmember") String []users){
         String msg="保存失败！";
         int successNum=0;
-        Date date=new Date();
-        Timestamp timestamp=new Timestamp(date.getTime());
-        team.setTime(timestamp.toString().substring(0,19));
         if(team.getId()==null){
-            team.setCreator((User)session.getAttribute("user"));
-            successNum=teamService.insert(team);;
+            Date date=new Date();
+            Timestamp timestamp=new Timestamp(date.getTime());
+            team.setTime(timestamp.toString().substring(0,19));
+            team.setCreator((User) session.getAttribute("user"));
+            successNum=teamService.insert(team);
+            Tmember tmember=new Tmember();
             for(int i = 0; i<users.length; i++){
                 tmember.setTeam(team);
                 tmember.setMember(userService.get(Integer.valueOf(users[i])));

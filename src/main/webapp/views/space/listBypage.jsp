@@ -1,18 +1,16 @@
-<%--
-  Created by IntelliJ IDEA.
-  User: lenovo
-  Date: 2019/2/28
-  Time: 20:45
-  To change this template use File | Settings | File Templates.
---%>
-<%@ page contentType="text/html;charset=UTF-8" language="java" %>
+﻿<%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/sql" prefix="sql"%>
 <%@ taglib prefix="form" uri="http://www.springframework.org/tags/form" %>
-
+<link href="${pageContext.request.contextPath}/tools/css/plugins/footable/footable.core.css" rel="stylesheet">
+<link href="${pageContext.request.contextPath}/tools/css/bootstrap.min.css" rel="stylesheet">
+<link rel="stylesheet" type="text/css"  href="${pageContext.request.contextPath}/tools/css/style.css" />
 <html>
 <head>
     <title>space</title>
+    <link rel="stylesheet" href="${pageContext.request.contextPath}/tools/css/bootstrap.min.css">
+    <script src="${pageContext.request.contextPath}/tools/js/jquery.min.js"></script>
+    <script src="${pageContext.request.contextPath}/tools/js/bootstrap.min.js"></script>
     <script>
         function firstPage(){
             var pageNum=document.getElementById("pageNum").value;
@@ -24,17 +22,21 @@
         }
         function prePage(){
             var pageNum=document.getElementById("pageNum").value;
-            pageNum--;
-            window.location.href="<%=request.getContextPath()%>/space/listByPage.action?pageNum="+pageNum;
+            if(pageNum==1){
+                alert("亲，已经是首页了");
+            }
+            else{
+                pageNum--;
+                window.location.href="<%=request.getContextPath()%>/space/listByPage.action?pageNum="+pageNum;}
         }
         function nextPage(){
             var pageNum=document.getElementById("pageNum").value;
             var totalPage=document.getElementById("totalPage").value;
-            pageNum++;
-            if(pageNum==totalPage+1){
+            if(pageNum==totalPage){
                 alert("亲，已经是尾页了");
             }
             else{
+                pageNum++;
                 window.location.href="<%=request.getContextPath()%>/space/listByPage.action?pageNum="+pageNum;}
         }
         function lastPage(){
@@ -50,44 +52,44 @@
 </head>
 <body>
 <c:out value="${msg}"/>
-<table border="1">
-    <caption>空间表</caption>
-    <tr>
-        <th>id</th>
-        <th>创始人id</th>
-        <th>空间名</th>
-        <th>类型</th>
-        <th>创建时间</th>
-        <th>描述</th>
-        <th colspan="3">操作</th>
-    </tr>
-    <c:forEach items="${spaceList}" var="space" >
+<div class="ibox-content">
+    <table class="footable table table-stripped" data-page-size="8" data-filter=#filter>
+        <thead>
         <tr>
-            <td align = "center">${space.id}</td>
-            <td align = "center">${space.creator.name}</td>
-            <td align = "center">${space.name}</td>
-            <td align = "center">${space.type}</td>
-            <td align = "center">${space.time}</td>
-            <td align = "center">${space.intro}</td>
-            <td align="center" ><a href="${pageContext.request.contextPath}/space/get/${space.id}"><input type="button" value="详情"></a></td>
-            <td align="center" ><a href="${pageContext.request.contextPath}/space/edit/${space.id}"><input type="button" value="编辑"></a></td>
-            <td align="center" ><a href="${pageContext.request.contextPath}/space/del/${space.id}"><input type="button" value="删除"></a></td>
+            <td><a href="${pageContext.request.contextPath}/space/add"><input type="button" value="创建空间"></a></td>
         </tr>
-    </c:forEach>
-    <tr>
-        <td align="center" ><a href="${pageContext.request.contextPath}/space/add"><input type="button" value="添加"></a></td>
-    </tr>
-</table>
+        <tr>
+            <th>空间名</th>
+            <th>描述</th>
+            <th>创建时间</th>
+            <th colspan="2">操作</th>
+        </tr>
+        </thead>
+        <tbody>
+        <c:forEach items="${spaceList}" var="space" >
+            <tr>
+                <td><a href="${pageContext.request.contextPath}/team/detail/${space.id}" target="_parent">${space.name}</a></td>
+                <td>${space.intro}</td>
+                <td>${space.time}</td>
+                <td><a href="${pageContext.request.contextPath}/space/edit/${space.id}"><input type="button" value="编辑"></a></td>
+                <td><a href="${pageContext.request.contextPath}/space/del/${space.id}"><input type="button" value="删除"></a></td>
+            </tr>
+        </c:forEach>
+        </tbody>
+    </table>
+</div>
 <div align="center">
     <input type="hidden" id="pageNum" value="${spaceList.getPageNum()}">
     <input type="hidden" id="totalPage" value="${spaceList.getPages()}">
-    <span onclick="firstPage()">首页</span>
-    <span onclick="prePage()">上一页</span>
-    <c:forEach begin="1" end="${spaceList.getPages()}" varStatus="statu">
-        <a  href="${pageContext.request.contextPath}/space/listByPage.action?pageNum=${statu.count}">${statu.count}</a>
-    </c:forEach>
-    <span onclick="nextPage()">下一页</span>
-    <span onclick="lastPage()">尾页</span>
+    <ul class="pagination">
+        <li><a href="#" onclick="firstPage()">首页</a></li>
+        <li><a href="#" onclick="prePage()">上一页</a></li>
+        <c:forEach begin="1" end="${spaceList.getPages()}" varStatus="statu">
+            <li><a  href="${pageContext.request.contextPath}/space/listByPage.action?pageNum=${statu.count}">${statu.count}</a></li>
+        </c:forEach>
+        <li><a href="#" onclick="nextPage()">下一页</a></li>
+        <li><a href="#" onclick="lastPage()">尾页</a></li>
+    </ul>
 </div>
 </body>
 </html>

@@ -73,13 +73,12 @@ public class WikiService extends CrudService<WikiMapper,Wiki>{
         return super.deleteAll(ids);
     }
 
-    public PageInfo<Wiki> getQueryList(Wiki wiki)  {
-
+    public List<Wiki> getQueryList(Wiki wiki)  {
         List<Wiki> wikiList= wikiMapper.getQueryList(wiki);
         for(int i = 0; i < wikiList.size(); i ++) {
             wikiList.set(i, wikiService.get(wikiList.get(i).getId()));
         }
-        return new PageInfo<Wiki>(wikiList,2);
-        //return wikiList;
+        //return new PageInfo<Wiki>(wikiList,2);
+        return wikiList;
     }
 }

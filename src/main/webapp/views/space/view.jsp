@@ -12,8 +12,11 @@
     <title>Title</title>
 </head>
 <body>
-<table align="center">
-    <caption>${space.name}的详情页</caption>
+<h3>${space.name}</h3>
+<h5>${space.creator.name}创建于${space.time}</h5>
+<h6>${space.intro}</h6>
+<!--<table align="center">
+    <caption>${space.name}</caption>
     <tr>
         <th>创始人id</th>
         <th>空间名</th>
@@ -28,7 +31,7 @@
         <td align = "center">${space.time}</td>
         <td align = "center">${space.intro}</td>
     </tr>
-</table>
+</table>-->
 <table align="center">
     <c:forEach items="${wikiList}" var="wiki">
         <tr>

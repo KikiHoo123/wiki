@@ -12,7 +12,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0">
     <title>登录</title>
     <link href="${pageContext.request.contextPath}/tools/css/bootstrap.min.css" rel="stylesheet">
-    <link href="${pageContext.request.contextPath}/tools/css/font-awesome.css?v=4.4.0" rel="stylesheet">
+    <link href="${pageContext.request.contextPath}/tools/css/font-awesome.css" rel="stylesheet">
     <link href="${pageContext.request.contextPath}/tools/css/animate.css" rel="stylesheet">
     <link href="${pageContext.request.contextPath}/tools/css/style.css" rel="stylesheet">
     <link href="${pageContext.request.contextPath}/tools/css/login.css" rel="stylesheet">
@@ -28,7 +28,7 @@
                     <h1>WELCOME!</h1>
                 </div>
                 <div class="m-b"></div>
-                <h1><strong>青岛大学商学院维基百科</strong></h1>
+                <h1><strong>青岛大学商学院知识管理系统</strong></h1>
             </div>
         </div>
         <div class="col-sm-5">

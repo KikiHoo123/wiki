@@ -20,7 +20,7 @@
     <link rel="stylesheet" type="text/css"  href="${pageContext.request.contextPath}/tools/css/md-github.css" />
     <link rel="stylesheet" type="text/css"  href="${pageContext.request.contextPath}/tools/css/admin.css" />
 </head>
-<body class="admin-index">
+<body>
 <div  style="z-index:1992;" class="ui fixed inverted main menu">
     <div class="ui floating top  pointing dropdown link item dd-top-menu-user">
         <span class="ad-index-user-username" >BSC</span>
@@ -35,7 +35,7 @@
         </div>
     </div>
     <a class="title item">
-        <b>青岛大学商学院维基百科</b>
+        <b>青岛大学商学院知识管理系统</b>
     </a>
     <div class="ui floating top  pointing dropdown link item dd-top-menu-user">
         <div class="ad-index-user-username">创建 </div>
@@ -75,6 +75,21 @@
                 </div>
             </div>
         </div>
+        <div class="ui floating top right pointing dropdown link item dd-top-menu-user">
+            <i class="question icon"></i>
+            <span class="ad-index-user-username" >帮助</span>
+            <div class="menu">
+                <div class="header">选择操作</div>
+                <div class="item ad-index-user-edit" >
+                    <i class="edit icon"></i>
+                    <span><a href="#" target="main">新手入门</a> </span>
+                </div>
+                <div class="item ad-index-user-username" >
+                    <i class="edit icon"></i>
+                    <span><a href="#">疑难解惑</a> </span>
+                </div>
+            </div>
+        </div>
     </div>
 </div>
 <div class="pusher ad-index-content">
@@ -82,7 +97,7 @@
         <div  class="ui dividing close left rail ad-index-rail" style="width:133px; height:450px; padding-top:70px;">
             <div  class="ui vertical pointing inverted menu" style="width: 9rem !important; position: fixed;">
                 <a class="item"  href="${pageContext.request.contextPath}/wiki/list" target="main">
-                    <i class="wikipedia icon"></i> 热门
+                    <i class="question icon"></i> 热门
                 </a>
                 <a class="item" target="main"  href="${pageContext.request.contextPath}/space">
                     <i class="chat icon"></i> 所有空间

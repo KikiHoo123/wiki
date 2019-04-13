@@ -42,11 +42,24 @@ public class WikiController {
     @Autowired
     private HttpSession session;
     @RequestMapping(value = {"", "list"})
-    private String list(Model model, Wiki wiki) {
+    private String list(HttpServletRequest request, Model model, Wiki wiki) {
+        int pageNum=1;
+        if(request.getParameter("pageNum")==null || "".equals(request.getParameter("page"))){
+            pageNum=1;
+        }
+        else{
+            pageNum=Integer.parseInt(request.getParameter("pageNum"));
+        }
+        PageHelper.startPage(pageNum, 5);
         List<Wiki> wikiList = wikiService.findList(wiki);
         for (int i = 0; i < wikiList.size(); i++) {
             wikiList.get(i).setType(DictUtils.getDictLabel(wiki.getType(), "GENDER"));
         }
+        PageInfo<Wiki> wikiPageInfo = new PageInfo<>(wikiList);
+        //得到分页中的条目对象
+        List<Wiki> pageList = wikiPageInfo.getList();
+        //将结果存入model进行传送
+        model.addAttribute("pageList",pageList);
         model.addAttribute("wikiList", wikiList);
         return "wiki/list";
     }
@@ -126,21 +139,19 @@ public class WikiController {
         }
         String condition = new String(request.getParameter("condition"));
         httpSession.setAttribute("condition",condition);
-        PageHelper.startPage(pageNum, 3);
+        PageHelper.startPage(pageNum, 5);
         wiki.setTitle(condition);
         wiki.setContent(condition);
-        List<Wiki> wikiList=wikiMapper.getQueryList(wiki);
+        List<Wiki> wikiList=wikiService.getQueryList(wiki);
         for (int i = 0; i < wikiList.size(); i++) {
             wikiList.get(i).setType(DictUtils.getDictLabel(wikiList.get(i).getType(), "GENDER"));
         }
         PageInfo<Wiki> wikiPageInfo = new PageInfo<>(wikiList);
-        //得到分页中的person条目对象
+        //得到分页中的条目对象
         List<Wiki> pageList = wikiPageInfo.getList();
-        //将结果存入map进行传送
+        //将结果存入model进行传送
         model.addAttribute("pageInfo" , pageList);
         model.addAttribute("wikiList",wikiList);
-       //request.setAttribute("wikiList",wikiList);
-     //   request.setAttribute("pageInfo", pageInfo);
         return "wiki/list";
     }
 
@@ -155,23 +166,19 @@ public class WikiController {
             pageNum=Integer.parseInt(request.getParameter("pageNum"));
         }
         String condition=(String)httpSession.getAttribute("condition");
-        PageHelper.startPage(pageNum, 3);
+        PageHelper.startPage(pageNum, 5);
         wiki.setTitle(condition);
         wiki.setContent(condition);
-        List<Wiki> wikiList=wikiMapper.getQueryList(wiki);
+        List<Wiki> wikiList=wikiService.getQueryList(wiki);
         for (int i = 0; i < wikiList.size(); i++) {
             wikiList.get(i).setType(DictUtils.getDictLabel(wikiList.get(i).getType(), "GENDER"));
         }
         PageInfo<Wiki> wikiPageInfo = new PageInfo<>(wikiList);
-        //得到分页中的wiki条目对象
+        //得到分页中的条目对象
         List<Wiki> pageList = wikiPageInfo.getList();
-        //将结果存入map进行传送
-        //result.put("pageInfo" , pageList);
-        //request.setAttribute("wikiList",wikiList);
+        //将结果存入model进行传送
         model.addAttribute("pageList",pageList);
         model.addAttribute("wikiList",wikiList);
         return "wiki/listBypage";
     }
-
-
 }

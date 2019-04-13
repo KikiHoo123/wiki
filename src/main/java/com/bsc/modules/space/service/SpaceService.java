@@ -75,24 +75,12 @@ public class SpaceService  extends CrudService<SpaceMapper,Space> {
         return super.deleteAll(ids);
     }
 
-
-   /* public List<Space> getQueryList(Space entity) {
-        //   Space space = spaceMapper.get(id);
-        List<Space> spaceList = spaceMapper.getQueryList(entity);//获得符合条件的数据
-        for(int i = 0; i < spaceList.size(); i ++){
-            spaceList.set(i,spaceService.get(spaceList.get(i).getId()));//得到获得数据的id，
+    public List<Space> getQueryList(Space space) {
+        List<Space> spaceList = spaceMapper.getQueryList(space);
+        for (int i = 0; i < spaceList.size(); i++) {
+            spaceList.set(i, spaceService.get(spaceList.get(i).getId()));
         }
-        //   space.setType(DictUtils.getDictLabel(space.getType(),"SPACE"));
+        // return new PageInfo<Space>(spaceList,2);
         return spaceList;
-        // return super.findListentity);
-    }*/
-   public PageInfo<Space> getQueryList(Space space)  {
-
-       List<Space> spaceList= spaceMapper.getQueryList(space);
-       for(int i = 0; i < spaceList.size(); i ++) {
-           spaceList.set(i, spaceService.get(spaceList.get(i).getId()));
-       }
-       return new PageInfo<Space>(spaceList,2);
-       //return wikiList;
-   }
+    }
 }

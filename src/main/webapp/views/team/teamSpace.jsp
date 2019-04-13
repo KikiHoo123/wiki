@@ -92,7 +92,7 @@
         <div  class="ui dividing close left rail ad-index-rail" style="width:133px; height:450px; padding-top:70px;">
             <div  class="ui vertical pointing inverted menu" style="width: 9rem !important; position: fixed;">
                 <div class="item"><!--点击进入个人空间？-->
-                    <i class="heart icon"></i>${space.name}
+                    <i class="star icon"></i>${space.name}
                     (${space.creator.name})
                 </div>
             </div>

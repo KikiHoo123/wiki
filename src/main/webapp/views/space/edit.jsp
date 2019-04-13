@@ -10,38 +10,43 @@
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <html>
 <head>
-    <title>空间编辑页面</title>
+    <link href="${pageContext.request.contextPath}/tools/css/bootstrap.min.css" rel="stylesheet">
+    <link href="${pageContext.request.contextPath}/tools/css/font-awesome.css" rel="stylesheet">
+    <link href="${pageContext.request.contextPath}/tools/css/plugins/iCheck/custom.css" rel="stylesheet">
+    <link href="${pageContext.request.contextPath}/tools/css/animate.css" rel="stylesheet">
+    <link href="${pageContext.request.contextPath}/tools/css/style.css" rel="stylesheet">
 </head>
 <body>
+<!-- 全局js -->
+<script src="${pageContext.request.contextPath}/tools/js/jquery.min.js"></script>
+<script src="${pageContext.request.contextPath}/tools/js/bootstrap.min.js"></script>
+<!-- 自定义js -->
+<script src="${pageContext.request.contextPath}/tools/js/content.js"></script>
 <%--@elvariable id="space" type="com.bsc.modules.space.entity.Space"--%>
-<form:form modelAttribute="space" action="${pageContext.request.contextPath}/space/save/${space.id}">
-    <table>
-        <!--<tr>
-            <td></td>
-            <td><form:input path="time"/></td>
-        </tr>
-        <tr>
-            <td></td>
-            <td><form:input path="creator.id"/></td>
-        </tr>
-        <tr>
-            <td></td>
-            <td><form:input path="type"/></td>
-        </tr>-->
-        <tr>
-            <td>空间名</td>
-            <td><form:input path="name"/></td>
-        </tr>
-        <tr>
-            <td>描述</td>
-            <td><form:input path="intro"/></td>
-        </tr>
-        <tr>
-            <td><input type="submit" value="提交"></td>
-            <td><input type="reset" value="取消"></td>
-        </tr>
-    </table>
-</form:form>
+<div class="ibox float-e-margins">
+    <div class="ibox-content">
+        <div class="row">
+            <div class="col-sm-6 b-r">
+                <h3 class="m-t-none m-b">创建空间</h3>
+                <form:form modelAttribute="space" action="${pageContext.request.contextPath}/space/save/${space.id}">
+                    <!--<form:input path="creator.id"/>
+                    <form:input path="time"/>
+                    <form:input path="type"/>
+                    -->
+                    <div class="form-group">
+                    <label>空间名称</label>
+                    <form:input path="name"/>
+                    </div>
+                    <div class="form-group">
+                        <label>空间介绍</label>
+                        <form:input path="intro"/>
+                    </div>
+                    <input type="submit" value="保存" class="btn btn-sm btn-primary  m-t-n-xs">
+                </form:form>
+            </div>
+        </div>
+    </div>
+</div>
 </body>
 </html>
 
