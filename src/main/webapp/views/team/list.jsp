@@ -13,7 +13,6 @@
 <html>
 <head>
     <title>团队列表</title>
-    <link rel="stylesheet" href="${pageContext.request.contextPath}/tools/css/bootstrap.min.css">
     <script src="${pageContext.request.contextPath}/tools/js/jquery.min.js"></script>
     <script src="${pageContext.request.contextPath}/tools/js/bootstrap.min.js"></script>
     <script>
@@ -73,11 +72,19 @@
         <tbody>
         <c:forEach items="${teamList}" var="team">
             <tr>
-                <td><a href="${pageContext.request.contextPath}/team/get/${team.id}">${team.title}</a></td>
+                <td><a data-toggle="modal" href="${pageContext.request.contextPath}/team/get/${team.id}">${team.title}</a></td>
                 <td>${team.time}</td>
                 <td>${team.intro}</td>
+                <c:choose>
+                <c:when test="${team.creator.id==sessionScope.user.id}">
                 <td><a href="${pageContext.request.contextPath}/team/edit/${team.id}">修改</a></td>
                 <td><a href="${pageContext.request.contextPath}/team/del/${team.id}">删除</a></td>
+                </c:when>
+                    <c:otherwise>
+                        <td></td>
+                        <td></td>
+                    </c:otherwise>
+                </c:choose>
             </tr>
         </c:forEach>
         </tbody>

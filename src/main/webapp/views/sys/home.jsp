@@ -102,6 +102,9 @@
                 <a class="item" target="main"  href="${pageContext.request.contextPath}/space">
                     <i class="chat icon"></i> 所有空间
                 </a>
+                <a class="item" target="main"  href="${pageContext.request.contextPath}/team">
+                    <i class="chat icon"></i> 所有团队
+                </a>
                 <a class="item" target="main"  href="${pageContext.request.contextPath}/interaction/collect/${sessionScope.user.id}">
                     <i class="wikipedia icon"></i> 收藏空间
                 </a>

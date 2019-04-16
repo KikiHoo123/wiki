@@ -10,31 +10,29 @@
 <html>
 <head>
     <title>${team.title}的详情页</title>
+    <link href="${pageContext.request.contextPath}/tools/css/bootstrap.min.css" rel="stylesheet">
+    <link href="${pageContext.request.contextPath}/tools/css/style.css" rel="stylesheet">
 </head>
 <body>
-<table>
-    <tr>
-        <th colspan="2">${team.title}</th>
-    </tr>
-    <tr>
-        <td>创建人</td>
-        <td>${team.creator.name}</td>
-    </tr>
-    <tr>
-        <td>创建时间</td>
-        <td>${team.time}</td>
-    </tr>
-    <tr>
-        <td>团队描述</td>
-        <td>${team.intro}</td>
-    </tr>
-    <tr>
-        <td>团队成员</td>
-        <td>
+<div class="wrapper wrapper-content animated fadeInRight">
+<div class="ibox float-e-margins">
+    <div class="ibox-title">
+        <h5>${team.title}</h5>
+    </div>
+    <div class="ibox-content">
+        <p>团队介绍:</p>
+        <p>${team.intro}</p>
+        <p>团队成员:</p>
+        <ul>
             <c:forEach items="${tmemberList}" var="tmember">
-                <c:out value="${tmember.member.name} "/>
+                <li><c:out value="${tmember.member.name} "/></li>
             </c:forEach>
-    </tr>
-</table>
+        </ul>
+    </div>
+</div>
+</div>
+<!-- 全局js -->
+<script src="${pageContext.request.contextPath}/tools/js/jquery.min.js"></script>
+<script src="${pageContext.request.contextPath}/tools/js/bootstrap.min.js"></script>
 </body>
 </html>

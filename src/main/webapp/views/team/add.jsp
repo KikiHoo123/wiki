@@ -12,17 +12,12 @@
 <html>
 <head>
     <link href="${pageContext.request.contextPath}/tools/css/bootstrap.min.css" rel="stylesheet">
-    <link href="${pageContext.request.contextPath}/tools/css/font-awesome.css" rel="stylesheet">
-    <link href="${pageContext.request.contextPath}/tools/css/plugins/iCheck/custom.css" rel="stylesheet">
-    <link href="${pageContext.request.contextPath}/tools/css/animate.css" rel="stylesheet">
     <link href="${pageContext.request.contextPath}/tools/css/style.css" rel="stylesheet">
 </head>
 <body>
 <!-- 全局js -->
 <script src="${pageContext.request.contextPath}/tools/js/jquery.min.js"></script>
 <script src="${pageContext.request.contextPath}/tools/js/bootstrap.min.js"></script>
-<!-- 自定义js -->
-<script src="${pageContext.request.contextPath}/tools/js/content.js"></script>
 <%--@elvariable id="team" type="com.bsc.modules.team.entity.Team"--%>
 <div class="ibox float-e-margins">
     <div class="ibox-content">
@@ -46,18 +41,29 @@
                             <form:input path="intro"/>
                         </div>
                         <div class="form-group">
-                            <label>选择成员</label>
-                            <select name="tmember" multiple="multiple">
-                                <c:forEach var="user" items="${userList}">
-                                    <option value="${user.id}">${user.name}(${user.num})</option>
-                                </c:forEach>
-                            </select>
-                        </div>
+                            <table>
+                                <tr>
+                                    <td><label>选择成员:</label></td>
+                                    <td></td>
+                                </tr>
+
+                                <tr>
+                                    <td></td>
+                                    <td>
+                                        <select name="tmember" multiple="multiple">
+                                            <c:forEach var="user" items="${userList}">
+                                                <option value="${user.id}">${user.name}(${user.num})</option>
+                                            </c:forEach>
+                                        </select>
+                                    </td>
+                                </tr>
+                            </table>
                           <input type="submit" value="保存" class="btn btn-sm btn-primary  m-t-n-xs">
                 </form:form>
             </div>
         </div>
     </div>
+</div>
 </div>
 </body>
 </html>

@@ -1,8 +1,5 @@
 package com.bsc.modules.team.controller;
 
-import com.bsc.common.utils.DictUtils;
-import com.bsc.modules.interaction.entity.Interaction;
-import com.bsc.modules.interaction.service.InteractionService;
 import com.bsc.modules.space.entity.Space;
 import com.bsc.modules.space.service.SpaceService;
 import com.bsc.modules.team.entity.Team;
@@ -22,7 +19,6 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletRequest.*;
 import javax.servlet.http.HttpSession;
 import java.sql.Timestamp;
 import java.util.Date;

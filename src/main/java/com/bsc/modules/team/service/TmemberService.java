@@ -45,9 +45,7 @@ public class TmemberService extends CrudService<TmemberMapper,Tmember>{
                 j++;
             }
         }
-        for (;j<tmemberList.size();j++){
-            tmemberList.set(j,null);
-        }
+        tmemberList=tmemberList.subList(0,j);
         return tmemberList;
     }
 

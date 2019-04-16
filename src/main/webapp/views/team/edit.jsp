@@ -11,42 +11,52 @@
 <html>
 <head>
     <title>Title</title>
+    <link href="${pageContext.request.contextPath}/tools/css/plugins/footable/footable.core.css" rel="stylesheet">
+    <link href="${pageContext.request.contextPath}/tools/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" type="text/css"  href="${pageContext.request.contextPath}/tools/css/style.css" />
 </head>
 <body>
+<script src="${pageContext.request.contextPath}/tools/js/jquery.min.js"></script>
+<script src="${pageContext.request.contextPath}/tools/js/bootstrap.min.js"></script>
 <%--@elvariable id="team" type="com.bsc.modules.team.entity.Team"--%>
-<form:form modelAttribute="team" action="${pageContext.request.contextPath}/team/save/${team.id}">
-    <table align="center">
-        <tr>
+<div class="ibox float-e-margins">
+    <div class="ibox-content">
+        <div class="row">
+            <div class="col-sm-6 b-r">
+                <h3 class="m-t-none m-b">创建团队</h3>
+                <form:form modelAttribute="team"  action="${pageContext.request.contextPath}/team/save">
+                <!--<tr>
             <td>creator</td>
             <td><form:input path="creator.id"/></td>
         </tr>
         <tr>
-            <td>team name</td>
-            <td><form:input path="title"/></td>
-        </tr>
-        <tr>
-            <td>team introduction</td>
-            <td><form:input path="intro"/></td>
-        </tr>
-        <tr>
             <td>time</td>
             <td><form:input path="time"/></td>
-        </tr>
-        <tr>
-            <td>团队成员</td>
-            <td>
-                <c:forEach items="${tmemberList}" var="tmember">
-                    <c:out value="${tmember.member.name} "/>
-                </c:forEach>
-            </td>
-        </tr>
-        <tr>
-            <td><a href="${pageContext.request.contextPath}/tmember/edit">添加成员</a></td>
-        </tr>
-        <tr>
-            <td><input type="submit" value="保存"/> </td>
-        </tr>
-    </table>
-</form:form>
+        </tr>--><div class="form-group">
+                <label>团队名称</label>
+                <form:input path="title"/>
+            </div>
+                <div class="form-group">
+                    <label>团队介绍</label>
+                    <form:input path="intro"/>
+                </div>
+                <div class="form-group">
+                    <table>
+                        <tr>
+                            <td>团队成员:</td>
+                            <td>
+                                <c:forEach items="${tmemberList}" var="tmember">
+                                <c:out value="${tmember.member.name} ,"/>
+                            </c:forEach>
+                            </td>
+                        </tr>
+                    </table>
+                </div>
+                    <input type="submit" value="保存" class="btn btn-sm btn-primary  m-t-n-xs">
+                    </form:form>
+                </div>
+            </div>
+        </div>
+    </div>
 </body>
 </html>
